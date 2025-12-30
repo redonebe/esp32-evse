@@ -27,6 +27,7 @@
 #include "socket_lock.h"
 #include "temp_sensor.h"
 #include "wifi.h"
+#include <esp_log.h>
 
 #define RETURN_ON_ERROR(x)                 \
     do {                                   \
@@ -766,6 +767,20 @@ esp_err_t http_json_set_state_enabled(cJSON* json)
     return ESP_ERR_INVALID_ARG;
 }
 
+esp_err_t http_json_set_state_rr(cJSON* json)
+
+{
+    if (cJSON_IsBool(json)) {
+        evse_set_enabled(cJSON_IsTrue(json));
+        return ESP_OK;
+    }
+    else if (cJSON_IsNumber(json) && json->valuedouble >= 0 && json->valuedouble <= 8) {
+        //ESP_LOGW(TAG, "TestRR value %.0f received", json->valuedouble);
+        evse_set_rr_status(json->valueint);
+        return ESP_OK;
+    }
+    return ESP_ERR_INVALID_ARG;
+}
 esp_err_t http_json_set_state_charging_current(cJSON* json)
 {
     if (cJSON_IsNumber(json)) {

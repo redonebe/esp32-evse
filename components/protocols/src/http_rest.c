@@ -68,6 +68,7 @@ typedef enum {
     URI_TIME,
     URI_RESTART,
     URI_CREDENTIALS,
+    URI_RR,
     //
     URI_MAX
 } uri_t;
@@ -111,6 +112,7 @@ static const char* uris[] = {
     "/time",
     "/restart",
     "/credentials",
+    "/rr",
 };
 
 #define uri_full_length(uri) (sizeof(REST_BASE_PATH) - 1 + strlen(uris[uri]))
@@ -645,6 +647,9 @@ static esp_err_t post_handler(httpd_req_t* req)
             return handle_json_request(req, http_json_set_time);
         case URI_CREDENTIALS:
             return handle_json_request(req, http_json_set_credentials);
+        case URI_RR:
+            ESP_LOGW(TAG, "olaDeprecated endpoint /rr called");
+            return handle_json_request(req, http_json_set_state_rr);
         default:
             return handle_not_found(req);
         }

@@ -59,6 +59,8 @@ esp_err_t http_json_set_state_available(cJSON* json);
 
 esp_err_t http_json_set_state_enabled(cJSON* json);
 
+esp_err_t http_json_set_state_rr(cJSON* json);
+
 esp_err_t http_json_set_state_charging_current(cJSON* json);
 
 esp_err_t http_json_set_state_consumption_limit(cJSON* json);
