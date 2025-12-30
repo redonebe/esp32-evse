@@ -358,8 +358,7 @@ void evse_process(void)
             if (!authorized) {
                 if (require_auth) {
                     authorized = auth_grant_to >= xTaskGetTickCount();
-                    // in any case we need a fresh authorization, if the EV is disconnected
-                    auth_grant_to = 0;
+                    auth_grant_to = 0;  // in any case we need a fresh authorization, if the EV is disconnected
                 } else {
                     authorized = true;
                 }
@@ -385,6 +384,14 @@ void evse_process(void)
             }
             break;
         case EVSE_STATE_C1:
+            if (!authorized) {
+                if (require_auth) {
+                    authorized = auth_grant_to >= xTaskGetTickCount();
+                    auth_grant_to = 0;  // in any case we need a fresh authorization, if the EV is disconnected
+                } else {
+                    authorized = true;
+                }
+            }
             if (is_expired(&c1_d1_ac_relay_wait_to)) {
                 ESP_LOGW(TAG, "Force switch off ac relay");
                 ac_relay_set_state(false);
@@ -419,6 +426,14 @@ void evse_process(void)
             }
             break;
         case EVSE_STATE_D1:
+            if (!authorized) {
+                if (require_auth) {
+                    authorized = auth_grant_to >= xTaskGetTickCount();
+                    auth_grant_to = 0;  // in any case we need a fresh authorization, if the EV is disconnected
+                } else {
+                    authorized = true;
+                }
+            }
             if (is_expired(&c1_d1_ac_relay_wait_to)) {
                 ESP_LOGW(TAG, "Force switch off ac relay");
                 ac_relay_set_state(false);
@@ -733,7 +748,7 @@ void evse_authorize(void)
 
 bool evse_is_pending_auth(void)
 {
-    return evse_state_is_session(state) && !authorized;
+    return error == 0 && evse_state_is_session(state) && !authorized;
 }
 
 bool evse_is_enabled(void)
