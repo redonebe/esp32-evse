@@ -98,7 +98,7 @@ void pilot_measure(pilot_voltage_t* up_voltage, bool* down_voltage_n12)
 
     adc_cali_raw_to_voltage(adc_cali_handle, high, &high);
     adc_cali_raw_to_voltage(adc_cali_handle, low, &low);
-//high = 1797; low = 267;
+ low = 105;  // TEMP FIX
     
 
     if (high >= board_config.pilot.levels[BOARD_CFG_PILOT_LEVEL_12]) {
