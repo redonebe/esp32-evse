@@ -81,8 +81,6 @@ void pilot_measure(pilot_voltage_t* up_voltage, bool* down_voltage_n12)
 {
     int high = 0;
     int low = 3300;
-    static pilot_voltage_t prev_up_voltage = PILOT_VOLTAGE_1;
-    static bool prev_down_voltage_n12 = false;
 
     for (int i = 0; i < 100; i++) {
         int adc_reading;
@@ -98,8 +96,8 @@ void pilot_measure(pilot_voltage_t* up_voltage, bool* down_voltage_n12)
 
     adc_cali_raw_to_voltage(adc_cali_handle, high, &high);
     adc_cali_raw_to_voltage(adc_cali_handle, low, &low);
- low = 105;  // TEMP FIX
-    
+
+    ESP_LOGV(TAG, "Measure: %dmV - %dmV", low, high);
 
     if (high >= board_config.pilot.levels[BOARD_CFG_PILOT_LEVEL_12]) {
         *up_voltage = PILOT_VOLTAGE_12;
@@ -114,13 +112,7 @@ void pilot_measure(pilot_voltage_t* up_voltage, bool* down_voltage_n12)
     }
 
     *down_voltage_n12 = low <= board_config.pilot.levels[BOARD_CFG_PILOT_LEVEL_N12];
-    if ((*up_voltage != prev_up_voltage) || (*down_voltage_n12 != prev_down_voltage_n12)) {
-        prev_up_voltage = *up_voltage;
-        prev_down_voltage_n12 = *down_voltage_n12;
-    
-    //ESP_LOGI(TAG, "Up voltage %d", *up_voltage);
-    //ESP_LOGI(TAG, "Down voltage below 12V %d", *down_voltage_n12);
-    ESP_LOGI(TAG, "Measure: %dmV - %dmV", low, high);
-    ESP_LOGI(TAG, "++++++++++++++++++++++++++Voltage %d - %d", *up_voltage, *down_voltage_n12);
-    }
+
+    ESP_LOGV(TAG, "Up voltage %d", *up_voltage);
+    ESP_LOGV(TAG, "Down voltage below 12V %d", *down_voltage_n12);
 }

@@ -648,7 +648,7 @@ static esp_err_t post_handler(httpd_req_t* req)
         case URI_CREDENTIALS:
             return handle_json_request(req, http_json_set_credentials);
         case URI_RR:
-            ESP_LOGW(TAG, "olaDeprecated endpoint /rr called");
+            //ESP_LOGW(TAG, "olaDeprecated endpoint /rr called");
             return handle_json_request(req, http_json_set_state_rr);
         default:
             return handle_not_found(req);
