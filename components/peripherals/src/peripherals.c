@@ -10,6 +10,7 @@
 #include "rcm.h"
 #include "socket_lock.h"
 #include "temp_sensor.h"
+#include "tlc59116.h"
 
 void peripherals_init(void)
 {
@@ -23,4 +24,5 @@ void peripherals_init(void)
     led_init();
     aux_init();
     temp_sensor_init();
+    tlc59116_init();
 }
