@@ -106,9 +106,6 @@ typedef enum {
     KEY_OTA,
     KEY_CHANNELS,
     KEY_PATH,
-    KEY_I2C,
-    KEY_SDA_GPIO,
-    KEY_SCL_GPIO,
     //
     KEY_MAX,
 } key_t;
@@ -119,7 +116,7 @@ static const char* keys[] = {
     "socketLock", "rcm",         "aux",      "inputs",        "outputs",        "analogInputs", "gpio",     "gpios",       "name",
     "adcChannel", "adcChannels", "levels",   "detectionGpio", "detectionDelay", "minBreakTime", "testGpio", "energyMeter", "current",
     "voltage",    "scale",       "serials",  "type",          "rxdGpio",        "txdGpio",      "rtsGpio",  "onewire",     "temperatureSensor",
-    "ota",        "channels",    "path",    "i2c",  "sdaGpio", "sclGpio",
+    "ota",        "channels",    "path",
 };
 
 static key_t get_key(const char* key)
@@ -278,13 +275,6 @@ static bool set_key_value(board_cfg_t* config, const key_t* key, const int* seq_
             return false;
         }
         break;
-        case KEY_I2C:
-            switch (key[1]) {
-                CASE_SET_VALUE(KEY_SDA_GPIO, i2c.sda_gpio, str_to_gpio);
-                CASE_SET_VALUE(KEY_SCL_GPIO, i2c.scl_gpio, str_to_gpio);
-                CASE_DEFAULT();
-            }
-            break;
     default:
         return false;
     }

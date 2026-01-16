@@ -160,11 +160,6 @@ typedef struct {
     struct ota_s {
         board_cfg_ota_channel_t channels[BOARD_CFG_OTA_CHANNEL_COUNT];
     } ota;
-
-    struct i2c_s {
-        int8_t sda_gpio;
-        int8_t scl_gpio;
-    } i2c;
 } board_cfg_t;
 
 extern board_cfg_t board_config;

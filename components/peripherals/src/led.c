@@ -68,8 +68,6 @@ static void timer_callback(TimerHandle_t xTimer)
 void led_set_state(led_id_t led_id, uint16_t ontime, uint16_t offtime)
 {
     struct led_s* led = &leds[led_id];
-    ESP_LOGI(TAG, "led_set_state(%d, %d, %d) gpio: %d", led_id, ontime, offtime, led->gpio);
-    
     if (led->gpio != GPIO_NUM_NC) {
         if (led->timer != NULL) {
             xTimerStop(led->timer, BLOCK_TIME);
