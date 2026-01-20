@@ -187,7 +187,9 @@ static void update_leds(void)
             break;
         case EVSE_STATE_E:
             led_set_off(LED_ID_CHARGING);
-            led_set_on(LED_ID_ERROR);
+            //led_set_on(LED_ID_ERROR);
+            //Blink error LED
+            led_set_state(LED_ID_ERROR, 500, 500);
             break;
         case EVSE_STATE_F:
             led_set_off(LED_ID_CHARGING);
